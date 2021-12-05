@@ -86,23 +86,34 @@ def bingoRow(board, name):
 
 
 
-######
-# CODE ONLY CHECKS ROW OR COLUMNS OF BINGO BORAD
-# TO CHECK ROWS USE: dict_c
-# TO CHECK COLS USE: dict_transpose
-# THEN COMPARE VALUES FROM BOTH
-#####
 
-result_list = []
+result_list_c = []
+for key in dict_c.keys():
+    r = bingoRow(dict_c[key], key)
+    result_list_c.append(r)
+
+result_list_t = []
 for key in dict_transpose.keys():
     r = bingoRow(dict_transpose[key], key)
-    result_list.append(r)
+    result_list_t.append(r)
 
-result_list = np.array(result_list, dtype=object)
-min_idx = result_list[:,2].argmin()
-result_list = result_list[min_idx,:]
-result_board = dict_c[result_list[0]]
 
+combined_results = []
+for row_c, row_t in zip(result_list_c, result_list_t):
+    if row_c[2] < row_t[2]:
+        combined_results.append(row_c)
+    else:
+        combined_results.append(row_t)
+
+# print(combined_results)
+
+result_list = np.array(combined_results, dtype=object)
+max_idx = result_list[:,2].argmax()
+result_list = result_list[max_idx,:]
+
+print(result_list)
+
+result_board = dict_c[result_list[0]]   # dosent matter if normal or transposed
 result_board_flatten = result_board.flatten()
 
 unmarked_nums = []
@@ -111,10 +122,10 @@ for num in result_board_flatten:
         unmarked_nums.append(num)
 
 
-print(result_list)
-print(result_board)
-print(result_board_flatten)
-print(sum(unmarked_nums))
+# print(result_list)
+# print(result_board)
+# print(result_board_flatten)
+# print(sum(unmarked_nums))
 
 
 print(sum(unmarked_nums) * result_list[3])
