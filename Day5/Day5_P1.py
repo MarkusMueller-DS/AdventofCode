@@ -6,7 +6,7 @@ test_file = "data5_test.txt"
 
 
 num_list = []
-with open(test_file, "r") as f:
+with open(file, "r") as f:
     for line in f:
         num_list.append(line)
 
@@ -31,6 +31,8 @@ for line in vert_hori_lines:
     nums_map = map(int, line)
     num_list_final.append(list(nums_map))
 
+
+# print(num_list_final)
 
 # generate new points from coods
 def generateCorrds(coords):
@@ -102,9 +104,9 @@ for line in num_list_final:
     final_coord_list.append(r)
 
 final_coord_list_1d = []
-def onedarray():
-    [final_coord_list_1d.append(k) for i in final_coord_list for k in i for j in k]
-onedarray()
+for line in final_coord_list:
+    for item in line:
+        final_coord_list_1d.append(item)
 
 
 # trasfrom points to strings to Count them
@@ -121,4 +123,11 @@ for point in final_coord_list_1d:
 
 counter = Counter(point_str_list)
 
-print(counter)
+counter_dict = dict(counter)
+
+count = 0
+for key in counter_dict:
+    if counter_dict[key] >= 2:
+        count += 1
+
+print(count)
