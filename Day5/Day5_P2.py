@@ -29,22 +29,26 @@ for line in num_list_final:
 
 # print(vert_hori_lines)
 
+
+
+
 # diag lines
 diag_lines = []
 for line in num_list_final:
     if line[0] == line[1] and line[2] == line[3]:
         diag_lines.append(line)
-    if line[0]==line[3] and line[1] == line[2]:
+    elif line[0]==line[3] and line[1] == line[2]:
+        diag_lines.append(line)
+    elif abs(int(line[0]) - int(line[2])) == abs(int(line[1]) -int(line[3])):
         diag_lines.append(line)
 
-# print(diag_lines)
 
 num_list_final = []
 for line in vert_hori_lines:
     nums_map = map(int, line)
     num_list_final.append(list(nums_map))
 
-print("vert and horizontal: ", num_list_final)
+# print("vert and horizontal: ", num_list_final)
 
 num_list_diag_final = []
 for line in diag_lines:
@@ -111,7 +115,6 @@ def generateCorrds(coords):
                 new_coord = [x_start, coords[1]]
                 new_coords_list.append(new_coord)
             new_coords_list.append(coord_end)
-    
     return new_coords_list
 
 def generateDiagCorrds(coords):
@@ -148,7 +151,7 @@ def generateDiagCorrds(coords):
                 new_coords_list.append(new_coord)
             new_coords_list.append(coord_end)
     #diganoal 9,7 -> 7,9
-    if coords[0] == coords[3] and coords[1] == coords[2]:
+    elif coords[0] == coords[3] and coords[1] == coords[2]:
         if coords[0] > coords[1]:
             new_coords = coords[0] - coords[1]
             coord_start = coords[:2]
@@ -176,7 +179,74 @@ def generateDiagCorrds(coords):
                 new_coords_list.append(new_coord)
             new_coords_list.append(coord_end)
 
+    elif abs(coords[0] - coords[2]) == abs(coords[1] - coords[3]):
+        print("diga extra")
+        # 6,4 -> 2,0
+        if coords[0] > coords[2] and coords[1] > coords[3]:
+            # print("up")
+            new_coords = coords[0] - coords[2]
+            coord_start = coords[:2]
+            coord_end = coords[2:]
+            new_coords_list.append(coord_start)
+            x_start = coords[0]
+            y_start = coords[1]
+            for x in range(new_coords-1):
+                x_start -= 1
+                y_start -= 1
+                new_coord = [x_start, y_start]
+                new_coords_list.append(new_coord)
+            new_coords_list.append(coord_end)
+        # 2,0 -> 6,4
+        if coords[0] < coords[2] and coords[1] < coords[3]:
+            # print("down")
+            new_coords = coords[2] - coords[0]
+            coord_start = coords[:2]
+            coord_end = coords[2:]
+            new_coords_list.append(coord_start)
+            x_start = coords[0]
+            y_start = coords[1]
+            for x in range(new_coords-1):
+                x_start += 1
+                y_start += 1
+                new_coord = [x_start, y_start]
+                new_coords_list.append(new_coord)
+            new_coords_list.append(coord_end)
+        # 5,5 -> 8,2
+        if coords[0] == coords[1] and coords[0] < coords[2] and coords[1] > coords[3]:
+            # print("up")
+            new_coords = coords[2] - coords[1]
+            coord_start = coords[:2]
+            coord_end = coords[2:]
+            new_coords_list.append(coord_start)
+            x_start = coords[0]
+            y_start = coords[1]
+            for x in range(new_coords-1):
+                x_start += 1
+                y_start -= 1
+                new_coord = [x_start, y_start]
+                new_coords_list.append(new_coord)
+            new_coords_list.append(coord_end)
+        # 8,2 -> 5,5
+        if coords[2] == coords[3] and coords[1] < coords[3] and coords[0] > coords[2]:
+            # print("down")
+            new_coords = coords[0] - coords[2]
+            coord_start = coords[:2]
+            coord_end = coords[2:]
+            new_coords_list.append(coord_start)
+            x_start = coords[0]
+            y_start = coords[1]
+            for x in range(new_coords-1):
+                x_start -= 1
+                y_start += 1
+                new_coord = [x_start, y_start]
+                new_coords_list.append(new_coord)
+            new_coords_list.append(coord_end)
     return new_coords_list
+
+# test_coord = [1,5,3,7]
+# r = generateDiagCorrds(test_coord)
+# print(r)
+
 
 
 final_coord_list = []
@@ -226,21 +296,21 @@ for point in final_coord_list_1d_diag:
     point_str_list_diag.append(point_str)
 # print(point_str_list)
 
-print(len(point_str_list))
-print("---")
-print(len(point_str_list_diag))
+# print(len(point_str_list))
+# print("---")
+# print(len(point_str_list_diag))
 
 #join both list of strings
 for item in point_str_list_diag:
     point_str_list.append(item)
 
-print("\n")
-print(len(point_str_list))
+# print("\n")
+# print(len(point_str_list))
 
 counter = Counter(point_str_list)
 
-print("\n")
-print(counter)
+# print("\n")
+# print(counter)
 
 counter_dict = dict(counter)
 
