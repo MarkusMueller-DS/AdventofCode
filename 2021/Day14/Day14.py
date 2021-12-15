@@ -1,3 +1,5 @@
+from collections import Counter
+
 file = "data14.txt"
 test_file = "test_data14.txt"
 
@@ -10,25 +12,41 @@ with open(test_file, "r") as f:
 input_string = data[0]
 insertions = data[2:]
 
-print(input_string)
-print(insertions)
+# print(input_string)
+# print(insertions)
 
-result_string = ""
 
-for pair in range(len(input_string)-1):
-    for ins in insertions:
-        if input_string[pair:pair+2] == ins[:2]:
-           result_string += input_string[pair] + ins[6] 
+t = 0
 
-result_string += input_string[-1]
+def rec(r_string, t):
+    help_string = ""
+    if t >= 10:
+        return r_string
+    for pair in range(len(r_string)-1):
+        for ins in insertions:
+            if r_string[pair:pair+2] == ins[:2]:
+               help_string += r_string[pair] + ins[6] 
+    help_string += r_string[-1]
+    # print(help_string)
+    t += 1
+    return rec(help_string, t)
 
-result_string2 = ""
 
-for pair in range(len(result_string)-1):
-    for ins in insertions:
-        if result_string[pair:pair+2] == ins[:2]:
-           result_string2 += result_string[pair] + ins[6] 
+test_str= rec(input_string, t)
+print(len(test_str))
 
-result_string2 += result_string[-1]
+# use counter so count occurences of chars
+c = Counter(test_str)
+print(c.most_common())
 
-print(result_string2)
+
+
+min_ = 999999999999999999999
+max_ = 0
+for key in c.keys():
+    if c[key] > max_:
+        max_ = c[key]
+    elif c[key] < min_:
+        min_ = c[key]
+
+print(max_ - min_)
