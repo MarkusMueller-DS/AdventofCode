@@ -20,7 +20,7 @@ insertions = data[2:]
 start_dict = defaultdict(int)
 for pair in range(len(input_string)-1):
     pair_ = input_string[pair:pair+2]
-    start_dict[pair_] = 1
+    start_dict[pair_] += 1
 
 # print(start_dict)
 
@@ -52,19 +52,17 @@ def find_and_replace(str_dict_count):
                 new_str_dict_count[new_pair1] += num_occs 
                 new_str_dict_count[new_pair2] += num_occs
                 # print(new_str_dict_count)
-                break
     # remove keys with value 0
     for k, v in list(new_str_dict_count.items()):
         if v == 0:
             del new_str_dict_count[k]
     return new_str_dict_count
 
-
-
-
 for i in range(40):
    start_dict = find_and_replace(start_dict)
    # print(star1_dict)
+
+# print(start_dict)
 
 # count
 count_dict = defaultdict(int)
@@ -79,11 +77,15 @@ for pair in start_dict.items():
 count_dict[input_string[0]] += 1
 count_dict[input_string[-1]] += 1
 
+# print(count_dict)
+
 count_list = []
 for count in count_dict.items():
     count_dict[count[0]] = count[1] // 2
     count_list.append(count[1] // 2)
 
-print(count_dict)
-
+# print(count_dict)
+#
+# print(max(count_list), min(count_list))
+#
 print(max(count_list) - min(count_list))
